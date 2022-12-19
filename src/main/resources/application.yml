@@ -1,0 +1,24 @@
+#端口号
+server:
+  port: 81
+#项目名称
+spring:
+  application:
+    name: college
+#数据库驱动
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.80.120:3307/checkout?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+#    最大连接池，最小连接池个数
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 8
+#包别名
+mybatis-plus:
+  type-aliases-package: com.neuedu.entity
+#配置级别输出sql语句
+logging:
+  level:
+    com.neuedu.mapper: debug
