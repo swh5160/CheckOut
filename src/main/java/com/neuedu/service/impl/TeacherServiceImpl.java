@@ -6,13 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.neuedu.entity.Teacher;
 import com.neuedu.mapper.TeacherMapper;
-import com.neuedu.service.CollegeService;
 import com.neuedu.service.FileService;
 import com.neuedu.service.TeacherService;
 import io.minio.errors.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -36,15 +35,15 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Resource
-    CollegeService collegeService;
-    @Resource
     FileService fileService;
+
     String bucket = "icon";
+
     @Override
     public IPage<Teacher> list(int pageNo, int pageSize, Object val) {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
         //提升性能如果没有要查询的信息如何
-        if(!StringUtils.isEmpty(val)){
+        if(StringUtils.isNotBlank((CharSequence) val)){
             queryWrapper.like("id",val)
                     .or().like("name",val)
                     .or().like("tel",val)
@@ -56,12 +55,13 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     }
 
     @Override
-    public Boolean add(String name, String tel, String email, Integer collegeId, String password, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public Boolean add(String name, String tel, String email, Integer collegeId, String collegeName, String password, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         Teacher teacher = new Teacher(
                 name,
                 tel,
                 email,
                 collegeId,
+                collegeName,
                 bCryptPasswordEncoder.encode(password),
                 fileService.upload("icon",file)
         );
@@ -70,8 +70,8 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
 
 
     @Override
-    public Boolean update(Integer id, String name, String tel, String email,Integer collegeId, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        Teacher teacher = new Teacher(id,name,tel,email,collegeId);
+    public Boolean update(Integer id, String name, String tel, String email,Integer collegeId, String collegeName, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        Teacher teacher = new Teacher(id,name,tel,email,collegeId,collegeName);
         if (file != null && file.getSize() > 0){
             teacher.setIcon(fileService.upload("icon",file));
         }

@@ -22,7 +22,7 @@ public interface TeacherService extends IService<Teacher> {
 
     IPage<Teacher> list(int pageNo, int pageSize, Object val);
 
-    Boolean add(String name, String tel, String email, Integer collegeId,String password, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    Boolean add(String name, String tel, String email, Integer collegeId, String collegeName, String password, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
 
-    Boolean update(Integer id, String name, String tel, String email,Integer collegeId,  MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    Boolean update(Integer id, String name, String tel, String email,Integer collegeId, String collegeName, MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
 }
