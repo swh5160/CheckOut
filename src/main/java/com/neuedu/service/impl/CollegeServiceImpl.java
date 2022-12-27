@@ -10,6 +10,8 @@ import com.neuedu.service.CollegeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 学院表 服务实现类
@@ -44,4 +46,15 @@ public class CollegeServiceImpl extends ServiceImpl<CollegeMapper, College> impl
         College college = new College(id,name);
         return this.updateById(college);
     }
+
+    @Override
+    public List<College> findByIds() {
+/*        QueryWrapper<College> wrapper = new QueryWrapper<>();
+        wrapper.select("id","name");*/
+        List<College> list = baseMapper.selectList(null);
+        System.out.println(list.size()+"++++++++++++");
+        return list;
+    }
+
+
 }

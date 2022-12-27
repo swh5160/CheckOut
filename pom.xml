@@ -13,8 +13,11 @@
         <mybatis.version>3.4.1</mybatis.version>
         <freemarker.version>2.3.31</freemarker.version>
         <common.version>6.2.0</common.version>
+        <minio.version>8.4.6</minio.version>
+        <okkHttp.version>4.9.3</okkHttp.version>
+        <jnanoid.version>2.0.0</jnanoid.version>
+        <fastjson.version>1.2.47</fastjson.version>
     </properties>
-
     <dependencies>
         <!--web容器-->
         <dependency>
@@ -57,11 +60,53 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+        <!--redis缓存-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!--工具包输出日志-->
         <dependency>
             <groupId>org.duracloud</groupId>
             <artifactId>common</artifactId>
             <version>${common.version}</version>
+        </dependency>
+
+        <!--密码加密-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <!--minio文件服务器-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+            <!--去掉依赖传递-->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--minio中依赖传递okHttp版本升级-->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okkHttp.version}</version>
+        </dependency>
+        <!--文件重命名-->
+        <dependency>
+            <groupId>com.aventrix.jnanoid</groupId>
+            <artifactId>jnanoid</artifactId>
+            <version>${jnanoid.version}</version>
+        </dependency>
+        <!--转换为json-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
     </dependencies>
 

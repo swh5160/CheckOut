@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.neuedu.entity.College;
 
+import java.util.List;
+
 /**
  * <p>
  * 学院表 服务类
@@ -20,4 +22,6 @@ public interface CollegeService extends IService<College> {
     Boolean add(String name);
 
     Boolean update(Integer id, String name);
+
+    List<College> findByIds();
 }
