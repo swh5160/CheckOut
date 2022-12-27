@@ -41,7 +41,7 @@ public class CollegeController {
     ResultJson update(Integer id ,String name){
         return ResultJson.success(collegeService.update(id,name),"修改用户成功");
     }
-    @PostMapping("del")
+    @PostMapping("/del")
     ResultJson del(Integer id,Boolean active){
         College college = new College();
         college.setId(id);

@@ -22,3 +22,10 @@ mybatis-plus:
 logging:
   level:
     com.neuedu.mapper: debug
+  #文件上传大小无限制
+  servlet:
+    multipart:
+      #文件大小
+      max-file-size: -1
+      #请求总文件大小
+      max-request-size: -1
