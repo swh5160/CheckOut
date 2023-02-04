@@ -73,15 +73,13 @@ public class Teacher implements Serializable {
 
     }
 
-    public Teacher(String name, String tel, String email, Integer collegeId, String password, String icon) {
-        this.name = name;
-        this.tel = tel;
-        this.email = email;
-        this.collegeId = collegeId;
-        this.password = password;
-        this.icon = icon;
+
+    public Teacher(String name, String tel, String email, Integer collegeId,  String encode, String icon) {
+            this.name = name;
+            this.tel = tel;
+            this.email = email;
+            this.collegeId = collegeId;
+            this.password = password;
+            this.icon = icon;
     }
-
-
-
 }

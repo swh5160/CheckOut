@@ -12,7 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 施子安
@@ -51,4 +54,24 @@ public class MybatisTest {
         roleService.saveBatch(list);
     }
 
+    @Test
+    public void stream(){
+        Object[] a = {1,2,3,"dnbiaodoa"};
+        Stream.of(a).forEach(b->{
+            System.out.println(b);
+        });
+    }
+
+    /*
+    * 一组数据判断奇数
+    *
+    * */
+    @Test
+    public void oddStream(){
+        int[] arr = {1,2,3,4,5,6,7,8};
+        List<Integer> list = new ArrayList<>();
+        Collections.addAll(list,1,2,3,4,5,6,7,8);
+        List<Integer> list1 = list.stream().filter(a -> a % 2 == 0).collect(Collectors.toList());
+        list1.forEach(a -> System.out.print(a));
+    }
 }

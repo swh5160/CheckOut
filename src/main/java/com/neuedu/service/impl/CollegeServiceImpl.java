@@ -49,10 +49,7 @@ public class CollegeServiceImpl extends ServiceImpl<CollegeMapper, College> impl
 
     @Override
     public List<College> findByIds() {
-/*        QueryWrapper<College> wrapper = new QueryWrapper<>();
-        wrapper.select("id","name");*/
         List<College> list = baseMapper.selectList(null);
-        System.out.println(list.size()+"++++++++++++");
         return list;
     }
 
