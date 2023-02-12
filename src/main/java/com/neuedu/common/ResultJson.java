@@ -48,4 +48,12 @@ public class ResultJson {
     public static ResultJson failed(String message){
         return  failed(null,message);
     }
+
+    public static ResultJson unauto(String  message){
+        return getInstance(ResultCode.UNAUTH,null,message);
+    }
+
+    public static ResultJson forBig(String  message){
+        return getInstance(ResultCode.FORBID,null,"该用户没有权限");
+    }
 }

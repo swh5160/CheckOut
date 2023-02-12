@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +32,7 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 @RequestMapping("/teacher")
 public class TeacherController {
+    public static final String KEY = "token";
     @Resource
     TeacherService teacherService;
 
@@ -40,9 +42,18 @@ public class TeacherController {
     @Resource
     FileService fileService;
 
+
     @GetMapping("/list")
-    ResultJson list(Integer pageNo, Integer pageSize,String val){
+    ResultJson list(Integer pageNo, Integer pageSize, String val, HttpServletRequest request){
+
        // return ResultJson.success(teacherService.list(pageNo,pageSize,val));
+
+//        String header = request.getHeader(KEY);
+//        Teacher teacher = JwtUtil.decode(header);
+//        Integer loginId = teacher.getId();
+//
+//        System.out.println(loginId+"----");
+
         IPage<TeacherVo> page=teacherService.teacherlist(pageNo,pageSize,val);
         return ResultJson.success(page);
 
@@ -82,5 +93,10 @@ public class TeacherController {
         teacher.setId(id);
         teacher.setActive(active);
         return ResultJson.success(teacherService.updateById(teacher),active ? "恢复成功" : "删除成功");
+    }
+
+    @PostMapping("/login")
+    ResultJson login(String name,String password) throws Exception {
+        return ResultJson.success(teacherService.login(name,password));
     }
 }

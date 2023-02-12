@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * <p>
@@ -29,5 +30,12 @@ public interface TeacherService extends IService<Teacher> {
 
 
     IPage<TeacherVo> teacherlist(Integer pageNo, Integer pageSize, String val);
+
+    List<Teacher> findByIds();
+
+//    Map<String, Object> login(String name, String password) throws Exception;
+    Teacher login(String name, String password) throws Exception;
+
+    List<Teacher> getActive();
 
 }

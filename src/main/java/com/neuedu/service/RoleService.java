@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.neuedu.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 权限表 服务类
@@ -19,4 +21,6 @@ public interface RoleService extends IService<Role> {
     Boolean add(String name);
 
     Boolean update(Integer id, String name);
+
+    List<Role> getActive();
 }

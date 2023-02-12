@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.neuedu.config.MyException;
 import com.neuedu.entity.College;
 import com.neuedu.entity.Teacher;
+import com.neuedu.entity.UserResource;
 import com.neuedu.mapper.TeacherMapper;
 import com.neuedu.service.CollegeService;
 import com.neuedu.service.FileService;
 import com.neuedu.service.TeacherService;
+import com.neuedu.service.UserResourceService;
 import com.neuedu.vo.TeacherVo;
 import io.minio.errors.*;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +25,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +48,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
 
     @Resource
     FileService fileService;
+
+    @Resource
+    UserResourceService userResourceService;
 
     String bucket = "icon";
 
@@ -117,6 +123,86 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         voPage.setRecords(teacherVoList);
         voPage.setTotal(count);
         return voPage;
+    }
+
+    @Override
+    public List<Teacher> findByIds() {
+        List<Teacher> list = baseMapper.selectList(null);
+        return list;
+    }
+
+    /*@Override
+    public Map<String, Object> login(String name, String password) throws Exception {
+        QueryWrapper<Teacher> wrapper = new QueryWrapper<>();
+        wrapper.eq("tel",name)
+                .or().eq("email",name);
+        Teacher teacher = this.getOne(wrapper);
+        if (null == teacher || bCryptPasswordEncoder.matches(password,teacher.getPassword())){
+            throw new MyException("用户名或者密码错误");
+        }
+        if (!teacher.getActive()){
+            throw new MyException("该用户已经失效，无法登录");
+        }
+        List<UserResource> source = userResourceService.getByUserId(teacher.getId());
+
+        Map<String,Object> map = this.splitResource(source);
+        String id = NanoIdUtils.randomNanoId();
+        Map<String,Object> result = new HashMap<>();
+        result.put("token", id);
+        result.put("menu", map.get("menu"));
+        return result;
+//        return teacher;
+    }*/
+    @Override
+    public Teacher login(String name, String password) throws Exception {
+        QueryWrapper<Teacher> wrapper = new QueryWrapper<>();
+        wrapper.eq("tel",name)
+                .or().eq("email",name);
+        Teacher teacher = this.getOne(wrapper);
+        if (null == teacher || bCryptPasswordEncoder.matches(password,teacher.getPassword())){
+            throw new MyException("用户名或者密码错误");
+        }
+        if (!teacher.getActive()){
+            throw new MyException("该用户已经失效，无法登录");
+        }
+
+        return teacher;
+//        return teacher;
+    }
+    private Map<String,Object> splitResource(List<UserResource> source){
+        List<UserResource> menu = new ArrayList<>();
+        Set<String> backUrls = new HashSet<>();
+        for (UserResource userResource : source) {
+            if (userResource.getType() == 0){
+                backUrls.add(userResource.getBackUrl());
+                continue;
+            }
+            if (userResource.getLevel() == 1){
+                menu.add(userResource);
+                continue;
+            }
+            //父级查找
+            for (UserResource parent : source) {
+                if (parent.getId().intValue() == userResource.getParentId().intValue()){
+                    parent.getChildren().add(userResource);
+                    break;
+                }
+            }
+        }
+
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("menu",menu);
+        map.put("backUrls",backUrls);
+        return  map;
+
+    }
+
+    @Override
+    public List<Teacher> getActive() {
+        QueryWrapper<Teacher> wrapper = new QueryWrapper<>();
+        wrapper.eq("active",1);
+        return this.list(wrapper);
     }
 
 

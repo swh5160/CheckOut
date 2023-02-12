@@ -10,6 +10,8 @@ import com.neuedu.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 权限表 服务实现类
@@ -43,6 +45,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public Boolean update(Integer id, String name) {
         Role role = new Role(id,name);
         return this.updateById(role);
+    }
+
+    @Override
+    public List<Role> getActive() {
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        wrapper.eq("acitve",1);
+        return this.list(wrapper);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.neuedu.test;
 
+
 import com.neuedu.CheckOutApplication;
 import com.neuedu.entity.College;
 import com.neuedu.entity.Role;

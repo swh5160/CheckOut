@@ -15,6 +15,9 @@ public class DefaultException {
     @ExceptionHandler
     ResultJson defaultExceptionHandler(Exception e){
         e.printStackTrace();
+        if (e instanceof MyException){
+            return  ResultJson.failed(e.getMessage());
+        }
         return ResultJson.failed("系统异常，请联系系统管理员");
     }
 }

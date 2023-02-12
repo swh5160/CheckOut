@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class SwhGenerator {
     public static void main(String[] args) {
-        String table="claz";
+        String table="user_role_resource";
         //创建生成器对象
         AutoGenerator ag = new AutoGenerator();
         //获取项目路径
